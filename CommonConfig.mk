@@ -17,6 +17,8 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := false
 TARGET_NO_KERNEL := false
 
+TARGET_KERNEL_SOURCE := kernel/sony/msm
+
 # common cmdline parameters
 BOARD_KERNEL_CMDLINE += user_debug=31 androidboot.selinux=permissive
 BOARD_KERNEL_CMDLINE += msm_rtb.filter=0x3F ehci-hcd.park=3
