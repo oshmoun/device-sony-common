@@ -138,21 +138,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     charger_res_images
 
-# AOSP Packages
-PRODUCT_PACKAGES += \
-    Launcher3
-
 PRODUCT_PACKAGES += \
     libion \
     libxml2
 
 PRODUCT_PACKAGES += \
     libemoji
-
-# APN list
-PRODUCT_COPY_FILES += \
-    device/sample/etc/old-apns-conf.xml:system/etc/old-apns-conf.xml \
-    device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.xml
 
 # Limit dex2oat threads to improve thermals
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -166,10 +157,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # ADBoverWIFI
 PRODUCT_PROPERTY_OVERRIDES += \
     service.adb.tcp.port=5555
-
-# Enable MultiWindow
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.debug.multi_window=true
 
 # Default to LTE/GSM/WCDMA.
 PRODUCT_PROPERTY_OVERRIDES += \
