@@ -88,9 +88,9 @@ int sysfs_write(char *path, char *s)
 void set_low_power()
 {
     ALOGI("Setting low power mode");
-    // MIN before MAX is intentional
     sysfs_write(CPUQUIET_MIN_CPUS, low_min_cpus);
     sysfs_write(CPUQUIET_MAX_CPUS, low_max_cpus);
+    sysfs_write(CPUQUIET_MIN_CPUS, low_min_cpus);
     sysfs_write(RQBALANCE_BALANCE_LEVEL, low_balance);
     sysfs_write(RQBALANCE_UP_THRESHOLD, low_up);
     sysfs_write(RQBALANCE_DOWN_THRESHOLD, low_down);
@@ -99,9 +99,9 @@ void set_low_power()
 void set_normal_power()
 {
     ALOGI("Setting normal power mode");
-    // MAX before MIN is intentional
     sysfs_write(CPUQUIET_MAX_CPUS, normal_max_cpus);
     sysfs_write(CPUQUIET_MIN_CPUS, normal_min_cpus);
+    sysfs_write(CPUQUIET_MAX_CPUS, normal_max_cpus);
     sysfs_write(RQBALANCE_BALANCE_LEVEL, normal_balance);
     sysfs_write(RQBALANCE_UP_THRESHOLD, normal_up);
     sysfs_write(RQBALANCE_DOWN_THRESHOLD, normal_down);
