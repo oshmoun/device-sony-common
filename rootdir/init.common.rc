@@ -302,7 +302,7 @@ service irsc_util /system/vendor/bin/irsc_util "/etc/sec_config"
 
 # Camera
 service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
-    class late_start
+    class core
     user camera
     group camera system inet input graphics
     writepid /dev/cpuset/camera-daemon/tasks
