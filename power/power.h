@@ -46,6 +46,9 @@
 #define POWERSERVER_SOCKET		POWERSERVER_DIR "rqbsvr"
 #define POWERSERVER_MAXCONN		10
 
+#define BOOTANIM_COMPLETED		        "service.bootanim.exit"
+#define BOOTANIM_COMPLETED_THREAD_INTERVAL  1
+
 typedef int (*lock_acq_t)(int, int, int*, int);
 typedef int (*lock_rel_t)(int);
 

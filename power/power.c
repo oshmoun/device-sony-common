@@ -51,6 +51,10 @@ static struct sockaddr_un server_addr;
 static pthread_t powerserver_thread;
 static bool psthread_run = true;
 
+/* Bootanimation completion */
+static int bootanim_completed = 0;
+static pthread_t bootanim_completed_thread;
+
 /* Extension library support */
 static void *ext_library;
 lock_acq_t perf_lock_acquire;
@@ -404,6 +408,28 @@ retry_send:
     return NULL;
 }
 
+static void *bootanim_completed_looper(void *unusedvar UNUSED)
+{
+    int ret;
+    char bootanim_completed_value[PROPERTY_VALUE_MAX] = "0";
+
+    ALOGI("Waiting on bootanimation completion to set normal profile...");
+    while (strcmp(bootanim_completed_value,"0") == 0)
+    {
+        ret = property_get(BOOTANIM_COMPLETED, bootanim_completed_value, "0");
+        if (!ret) {
+            ALOGE("An error happened while checking service.bootanim.exit property");
+            break;
+        }
+        sleep(BOOTANIM_COMPLETED_THREAD_INTERVAL);
+    }
+    bootanim_completed = 1;
+    set_power_mode(POWER_MODE_BALANCED);
+
+    ALOGI("Bootanimation completed. Thread terminated.");
+    return NULL;
+}
+
 static int manage_powerserver(bool start)
 {
     int ret;
@@ -532,11 +558,23 @@ static void power_init(struct power_module *module UNUSED)
         ALOGI("Loading with debug off. To turn on, set %s", PROP_DEBUGLVL);
     }
 
-    /* Init thermal_max_cpus and default profile */
+    /* Init thermal_max_cpus and performance profile, if supported.
+     * Otherwise init normal profile
+     */
     rqbparm = &rqb[POWER_MODE_BALANCED];
     sysfs_write(SYS_THERM_CPUS, rqbparm->max_cpus);
-    set_power_mode(POWER_MODE_BALANCED);
-
+    if(param_perf_supported) {
+        set_power_mode(POWER_MODE_PERFORMANCE);
+        /* Start the bootanimation completed thread to set the normal profile
+         * at the end of the bootanimation
+         */
+        ret = pthread_create(&bootanim_completed_thread, NULL, bootanim_completed_looper, NULL);
+        if (ret != 0) {
+            ALOGW("Cannot create bootanimation completion thread");
+        }
+    } else {
+        set_power_mode(POWER_MODE_BALANCED);
+    }
     ALOGI("Initialized successfully.");
 
     ret = manage_powerserver(true);
@@ -701,7 +739,9 @@ static void set_interactive(struct power_module *module UNUSED, int on)
         if (!psthread_run)
             manage_powerserver(true);
 
-        set_power_mode(POWER_MODE_BALANCED);
+        /* Only set normal profile if boot is completed */
+        if(bootanim_completed)
+            set_power_mode(POWER_MODE_BALANCED);
     }
 }
 
