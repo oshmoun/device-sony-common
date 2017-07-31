@@ -50,7 +50,8 @@ PRODUCT_COPY_FILES += \
 # Common init
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/init.common.rc:root/init.common.rc \
-    $(COMMON_PATH)/rootdir/init.common.usb.rc:root/init.common.usb.rc
+    $(COMMON_PATH)/rootdir/init.common.usb.rc:root/init.common.usb.rc \
+    $(COMMON_PATH)/rootdir/init.common.usb-legacy.rc:root/init.common.usb-legacy.rc
 
 # Common etc
 PRODUCT_COPY_FILES += \
@@ -150,6 +151,7 @@ PRODUCT_PACKAGES += \
     Launcher3
 
 PRODUCT_PACKAGES += \
+    libjson \
     libion \
     libxml2
 
@@ -167,6 +169,14 @@ PRODUCT_PACKAGES += \
 # For android_filesystem_config.h
 PRODUCT_PACKAGES += \
     fs_config_files
+
+# librqbalance
+PRODUCT_PACKAGES += \
+    librqbalance
+
+# librqbalance enablement
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.extension_library=/system/lib/librqbalance.so
 
 # APN list
 PRODUCT_COPY_FILES += \
@@ -222,13 +232,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Hardware User Interface parameters
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hwui.texture_cache_size=72 \
-    ro.hwui.layer_cache_size=48 \
-    ro.hwui.r_buffer_cache_size=8 \
-    ro.hwui.path_cache_size=32 \
+    ro.hwui.texture_cache_size=48 \
+    ro.hwui.layer_cache_size=32 \
+    ro.hwui.r_buffer_cache_size=4 \
+    ro.hwui.path_cache_size=24 \
     ro.hwui.gradient_cache_size=1 \
-    ro.hwui.drop_shadow_cache_size=6 \
-    ro.hwui.texture_cache_flushrate=0.4 \
+    ro.hwui.drop_shadow_cache_size=5 \
+    ro.hwui.texture_cache_flushrate=0.5 \
     ro.hwui.text_small_cache_width=1024 \
     ro.hwui.text_small_cache_height=1024 \
     ro.hwui.text_large_cache_width=2048 \
@@ -243,9 +253,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vidc.debug.level=1
 
 # Audio
-# Fluencetype can be "fluence" or "fluencepro" or "none"
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.qc.sdk.audio.fluencetype=fluence \
     persist.audio.fluence.voicecall=true \
     persist.audio.fluence.voicecomm=true \
     persist.audio.fluence.voicerec=false \
@@ -285,18 +293,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.dc.frame.sync=0 \
     persist.camera.dcrf.enable=0
 
-# Camera Features
+# Camera
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.gyro.disable=1 \
-    persist.camera.stats.af.paaf=0 \
     persist.camera.feature.cac=0 \
     persist.camera.ois.disable=0 \
     persist.camera.zsl.mode=1
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.HAL3.enabled=0 \
-    media.stagefright.less-secure=true \
-    media.stagefright.legacyencoder=true
 
 # Sensors debug
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -308,3 +310,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # sdcardFS
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sys.sdcardfs=true
+
+# BT/FMRadio
+ifeq ($(filter rhine kanuti tone yoshino,$(SOMC_PLATFORM)),)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.rfkilldisabled=1
+endif

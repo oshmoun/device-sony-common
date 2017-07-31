@@ -1,4 +1,4 @@
-# Copyright (C) 2014 The Android Open Source Project
+# Copyright (C) 2012 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,16 +16,12 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := libfmjni
-LOCAL_SRC_FILES := android_fm.cpp \
-                   android_fmradio_Receiver.cpp
+LOCAL_SRC_FILES := rqbalance_ctl.c
+LOCAL_SHARED_LIBRARIES := \
+    liblog \
+    libcutils \
 
-ifneq ($(strip $(TARGET_ARCH)),arm64)
-LIBRARY_PATH:="/system/lib/"
-LOCAL_CFLAGS:= -DLIBRARY_PATH=\"$(LIBRARY_PATH)\"
-endif
-
-LOCAL_REQUIRED_MODULES := libfmradio.v4l2-fm brcm-uim-sysfs
-LOCAL_SHARED_LIBRARIES += liblog libnativehelper
+LOCAL_MODULE := librqbalance
+LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
