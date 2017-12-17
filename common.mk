@@ -129,10 +129,12 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    libloc_api_v02 \
     libloc_core \
-    libloc_eng \
-    libgps.utils
+    libgps.utils \
+    liblocation_api \
+    libloc_pla \
+    libgnss \
+    libgnsspps
 
 # WLAN
 PRODUCT_PACKAGES += \
