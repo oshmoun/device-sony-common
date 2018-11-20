@@ -26,6 +26,9 @@ PRODUCT_PACKAGE_OVERLAYS += \
 TARGET_KERNEL_SOURCE := kernel/sony/msm
 TARGET_COMPILE_WITH_MSM_KERNEL := true
 
+# Avoid using DTBO image recipe from kernel.mk in vendor/omni
+TARGET_BUILDS_DTBOIMAGE := true
+
 # SELinux
 BOARD_USE_ENFORCING_SELINUX := false
 PRODUCT_PROPERTY_OVERRIDES += \

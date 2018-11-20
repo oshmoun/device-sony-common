@@ -118,5 +118,35 @@
     "repository":   "android_vendor_qcom_opensource_interfaces",
     "target_path":  "vendor/qcom/opensource/interfaces",
     "revision":     "android-9.0"
+    },
+  {
+    "remote":       "github",
+    "repository":   "sonyxperiadev/vendor-qcom-opensource-wlan-fw-api",
+    "target_path":  "kernel/sony/msm/drivers/staging/wlan-qc/fw-api",
+    "revision":     "aosp/LA.UM.7.3.r1"
+  },
+  {
+    "remote":       "github",
+    "repository":   "sonyxperiadev/vendor-qcom-opensource-wlan-qca-wifi-host-cmn",
+    "target_path":  "kernel/sony/msm/drivers/staging/wlan-qc/qca-wifi-host-cmn",
+    "revision":     "aosp/LA.UM.7.3.r1"
+  },
+  {
+    "remote":       "github",
+    "repository":   "sonyxperiadev/vendor-qcom-opensource-wlan-qcacld-3.0",
+    "target_path":  "kernel/sony/msm/drivers/staging/wlan-qc/qcacld-3.0",
+    "revision":     "aosp/LA.UM.7.3.r1"
+  },
+  {
+    "remote":       "github",
+    "repository":   "oshmoun/android_hardware_sony_media",
+    "target_path":  "hardware/sony/media/sdm845",
+    "revision":     "tama"
+  },
+  {
+    "remote":       "github",
+    "repository":   "oshmoun/QcRilAm",
+    "target_path":  "hardware/sony/qcrilam",
+    "revision":     "tama"
   }
 ]
